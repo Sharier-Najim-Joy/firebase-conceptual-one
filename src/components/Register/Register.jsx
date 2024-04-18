@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { FaGoogle } from "react-icons/fa";
+
 
 const Register = () => {
     const navigate = useNavigate();
     const [error,setError] =useState('');
 
 
-    const {registerUser} = useContext(AuthContext);
+    const {registerUser,googleLogin} = useContext(AuthContext);
     const handleRegister = e =>{
         e.preventDefault();
         const name = e.target.name.value;
@@ -46,6 +48,14 @@ const Register = () => {
 
     }
 
+    const handleGoogleLogin =()=>{
+        googleLogin()
+        .then(result=>{
+            console.log(result.user);
+            navigate('/')
+        })
+        .catch(error=>console.log(error))
+    }
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -99,7 +109,11 @@ const Register = () => {
                         <div>
                             <p>Already have an account? please <span className="text-blue-800 underline"><Link to={'/login'}>Login</Link></span></p>
                         </div>
+                        <div>
+                        <p onClick={handleGoogleLogin} className="cursor-pointer"><FaGoogle></FaGoogle></p>
+                    </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
